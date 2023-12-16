@@ -30,67 +30,58 @@ namespace Phoenix.UI.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
-            pageCounterTextBox = new TextBox();
-            pageSizeCombox = new ComboBox();
+            commentsDataGridView = new DataGridView();
+            pageSizeComboBox = new ComboBox();
             nextLabelLink = new LinkLabel();
             prevLinkLabel = new LinkLabel();
-            searchLabel = new Label();
             searchTextBox = new TextBox();
             searchBtn = new Button();
             idTextBox = new TextBox();
             nameTextBox = new TextBox();
             dateTextBox = new TextBox();
             commentTextBox = new TextBox();
-            idLabel = new Label();
-            nameLabel = new Label();
-            dateLabel = new Label();
-            commentLabel = new Label();
             postBtn = new Button();
             fetchBtn = new Button();
             clrBtn = new Button();
             updateDatabaseBtn = new Button();
             localDbBtn = new Button();
             clearDbBtn = new Button();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            pageIndexlabel = new Label();
+            // ((System.ComponentModel.ISupportInitialize)commentsDataGridView).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
             // 
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
-            dataGridView1.Location = new Point(3, 196);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(589, 253);
-            dataGridView1.TabIndex = 0;
-            dataGridView1.CellClick += dataGridView1_CellClick;
-            // 
-            // pageCounterTextBox
-            // 
-            pageCounterTextBox.Anchor = AnchorStyles.Bottom;
-            pageCounterTextBox.Location = new Point(137, 459);
-            pageCounterTextBox.Name = "pageCounterTextBox";
-            pageCounterTextBox.ReadOnly = true;
-            pageCounterTextBox.Size = new Size(43, 23);
-            pageCounterTextBox.TabIndex = 2;
-            pageCounterTextBox.Text = "1";
+            commentsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            commentsDataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
+            commentsDataGridView.BackgroundColor = Color.LavenderBlush;
+            commentsDataGridView.GridColor = SystemColors.ActiveCaption;
+            commentsDataGridView.Location = new Point(12, 402);
+            commentsDataGridView.Name = "commentsDataGridView";
+            commentsDataGridView.Size = new Size(565, 253);
+            commentsDataGridView.TabIndex = 0;
+            commentsDataGridView.CellClick += CommentsDataGridViewCellClick;
             // 
             // pageSizeCombox
             // 
-            pageSizeCombox.FormattingEnabled = true;
-            pageSizeCombox.Items.AddRange(new object[] { "5", "10", "20", "50" });
-            pageSizeCombox.Location = new Point(456, 454);
-            pageSizeCombox.Name = "pageSizeCombox";
-            pageSizeCombox.Size = new Size(121, 23);
-            pageSizeCombox.TabIndex = 3;
-            pageSizeCombox.SelectedIndexChanged += pageSizeCombox_SelectedIndexChanged;
+            pageSizeComboBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            pageSizeComboBox.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            pageSizeComboBox.FormattingEnabled = true;
+            pageSizeComboBox.Items.AddRange(new object[] { "5", "10", "20", "50" });
+            pageSizeComboBox.Location = new Point(456, 681);
+            pageSizeComboBox.Name = "pageSizeComboBox";
+            pageSizeComboBox.Size = new Size(121, 25);
+            pageSizeComboBox.TabIndex = 3;
+            pageSizeComboBox.SelectedIndexChanged += pageSizeComboBox_SelectedIndexChanged;
             // 
             // nextLabelLink
             // 
+            nextLabelLink.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             nextLabelLink.AutoSize = true;
-            nextLabelLink.Location = new Point(179, 462);
+            nextLabelLink.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            nextLabelLink.Location = new Point(185, 684);
             nextLabelLink.Name = "nextLabelLink";
-            nextLabelLink.Size = new Size(32, 15);
+            nextLabelLink.Size = new Size(37, 17);
             nextLabelLink.TabIndex = 6;
             nextLabelLink.TabStop = true;
             nextLabelLink.Text = "Next";
@@ -98,225 +89,215 @@ namespace Phoenix.UI.Forms
             // 
             // prevLinkLabel
             // 
+            prevLinkLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             prevLinkLabel.AutoSize = true;
-            prevLinkLabel.Location = new Point(73, 462);
+            prevLinkLabel.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            prevLinkLabel.Location = new Point(70, 681);
             prevLinkLabel.Name = "prevLinkLabel";
-            prevLinkLabel.Size = new Size(52, 15);
+            prevLinkLabel.Size = new Size(54, 17);
             prevLinkLabel.TabIndex = 7;
             prevLinkLabel.TabStop = true;
             prevLinkLabel.Text = "Previous";
             prevLinkLabel.LinkClicked += prevLinkLabel_LinkClicked;
             // 
-            // searchLabel
-            // 
-            searchLabel.AutoSize = true;
-            searchLabel.Location = new Point(12, 15);
-            searchLabel.Name = "searchLabel";
-            searchLabel.Size = new Size(110, 15);
-            searchLabel.TabIndex = 8;
-            searchLabel.Text = "Name or Comment";
-            // 
             // searchTextBox
             // 
-            searchTextBox.Location = new Point(12, 33);
+            searchTextBox.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            searchTextBox.Location = new Point(353, 20);
             searchTextBox.Name = "searchTextBox";
-            searchTextBox.Size = new Size(150, 23);
+            searchTextBox.PlaceholderText = "Name or Description";
+            searchTextBox.Size = new Size(224, 24);
             searchTextBox.TabIndex = 9;
             // 
             // searchBtn
             // 
-            searchBtn.Location = new Point(12, 62);
+            searchBtn.BackColor = Color.SeaGreen;
+            searchBtn.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            searchBtn.ForeColor = SystemColors.Control;
+            searchBtn.Location = new Point(516, 49);
             searchBtn.Name = "searchBtn";
-            searchBtn.Size = new Size(75, 23);
+            searchBtn.Size = new Size(60, 30);
             searchBtn.TabIndex = 10;
             searchBtn.Text = "Search";
-            searchBtn.UseVisualStyleBackColor = true;
+            searchBtn.UseVisualStyleBackColor = false;
             searchBtn.Click += searchBtn_Click;
             // 
             // idTextBox
             // 
-            idTextBox.Location = new Point(370, 15);
+            idTextBox.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            idTextBox.Location = new Point(12, 20);
             idTextBox.Name = "idTextBox";
+            idTextBox.PlaceholderText = "Id";
             idTextBox.ReadOnly = true;
-            idTextBox.Size = new Size(168, 23);
+            idTextBox.Size = new Size(221, 24);
             idTextBox.TabIndex = 11;
             // 
             // nameTextBox
             // 
-            nameTextBox.Location = new Point(370, 44);
+            nameTextBox.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            nameTextBox.Location = new Point(12, 49);
             nameTextBox.Name = "nameTextBox";
-            nameTextBox.Size = new Size(168, 23);
+            nameTextBox.PlaceholderText = "Name";
+            nameTextBox.Size = new Size(221, 24);
             nameTextBox.TabIndex = 12;
             // 
             // dateTextBox
             // 
-            dateTextBox.Location = new Point(370, 73);
+            dateTextBox.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dateTextBox.Location = new Point(12, 78);
             dateTextBox.Name = "dateTextBox";
-            dateTextBox.Size = new Size(168, 23);
+            dateTextBox.PlaceholderText = "Date";
+            dateTextBox.Size = new Size(221, 24);
             dateTextBox.TabIndex = 13;
             // 
             // commentTextBox
             // 
-            commentTextBox.Location = new Point(370, 102);
+            commentTextBox.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            commentTextBox.Location = new Point(12, 107);
             commentTextBox.Name = "commentTextBox";
-            commentTextBox.Size = new Size(168, 23);
+            commentTextBox.PlaceholderText = "Comment";
+            commentTextBox.Size = new Size(221, 24);
             commentTextBox.TabIndex = 14;
-            // 
-            // idLabel
-            // 
-            idLabel.AutoSize = true;
-            idLabel.Location = new Point(304, 23);
-            idLabel.Name = "idLabel";
-            idLabel.Size = new Size(17, 15);
-            idLabel.TabIndex = 15;
-            idLabel.Text = "Id";
-            // 
-            // nameLabel
-            // 
-            nameLabel.AutoSize = true;
-            nameLabel.Location = new Point(304, 52);
-            nameLabel.Name = "nameLabel";
-            nameLabel.Size = new Size(39, 15);
-            nameLabel.TabIndex = 16;
-            nameLabel.Text = "Name";
-            // 
-            // dateLabel
-            // 
-            dateLabel.AutoSize = true;
-            dateLabel.Location = new Point(304, 81);
-            dateLabel.Name = "dateLabel";
-            dateLabel.Size = new Size(31, 15);
-            dateLabel.TabIndex = 17;
-            dateLabel.Text = "Date";
-            // 
-            // commentLabel
-            // 
-            commentLabel.AutoSize = true;
-            commentLabel.Location = new Point(304, 110);
-            commentLabel.Name = "commentLabel";
-            commentLabel.Size = new Size(61, 15);
-            commentLabel.TabIndex = 18;
-            commentLabel.Text = "Comment";
             // 
             // postBtn
             // 
-            postBtn.Location = new Point(370, 131);
+            postBtn.BackColor = Color.SeaGreen;
+            postBtn.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            postBtn.ForeColor = SystemColors.Control;
+            postBtn.Location = new Point(12, 136);
             postBtn.Name = "postBtn";
-            postBtn.Size = new Size(75, 23);
+            postBtn.Size = new Size(60, 30);
             postBtn.TabIndex = 21;
             postBtn.Text = "Post Server";
-            postBtn.UseVisualStyleBackColor = true;
+            postBtn.UseVisualStyleBackColor = false;
             postBtn.Click += postBtn_Click;
             // 
             // fetchBtn
             // 
-            fetchBtn.Location = new Point(3, 167);
+            fetchBtn.BackColor = Color.SeaGreen;
+            fetchBtn.Font = new Font("Comic Sans MS", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            fetchBtn.ForeColor = SystemColors.Control;
+            fetchBtn.Location = new Point(12, 325);
             fetchBtn.Name = "fetchBtn";
-            fetchBtn.Size = new Size(119, 23);
+            fetchBtn.Size = new Size(120, 60);
             fetchBtn.TabIndex = 22;
-            fetchBtn.Text = "Populate From API";
-            fetchBtn.UseVisualStyleBackColor = true;
+            fetchBtn.Text = "Populate local Db From API";
+            fetchBtn.UseVisualStyleBackColor = false;
             fetchBtn.Click += fetchBtn_Click;
             // 
             // clrBtn
             // 
-            clrBtn.Location = new Point(456, 131);
+            clrBtn.BackColor = Color.SeaGreen;
+            clrBtn.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            clrBtn.ForeColor = SystemColors.Control;
+            clrBtn.Location = new Point(173, 136);
             clrBtn.Name = "clrBtn";
-            clrBtn.Size = new Size(75, 23);
+            clrBtn.Size = new Size(60, 30);
             clrBtn.TabIndex = 23;
             clrBtn.Text = "Clear";
-            clrBtn.UseVisualStyleBackColor = true;
-            clrBtn.Click += clrBtn_Click;
+            clrBtn.UseVisualStyleBackColor = false;
+            clrBtn.Click += ClearBtn_Click;
             // 
             // updateDatabaseBtn
             // 
-            updateDatabaseBtn.Location = new Point(137, 131);
+            updateDatabaseBtn.BackColor = Color.SeaGreen;
+            updateDatabaseBtn.Font = new Font("Comic Sans MS", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            updateDatabaseBtn.ForeColor = SystemColors.Control;
+            updateDatabaseBtn.Location = new Point(142, 325);
             updateDatabaseBtn.Name = "updateDatabaseBtn";
-            updateDatabaseBtn.Size = new Size(143, 23);
+            updateDatabaseBtn.Size = new Size(120, 60);
             updateDatabaseBtn.TabIndex = 24;
             updateDatabaseBtn.Text = "Sync Local Database";
-            updateDatabaseBtn.UseVisualStyleBackColor = true;
+            updateDatabaseBtn.UseVisualStyleBackColor = false;
             updateDatabaseBtn.Click += updateDatabaseBtn_Click;
             // 
             // localDbBtn
             // 
-            localDbBtn.Location = new Point(137, 167);
+            localDbBtn.BackColor = Color.SeaGreen;
+            localDbBtn.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            localDbBtn.ForeColor = SystemColors.Control;
+            localDbBtn.Location = new Point(456, 325);
             localDbBtn.Name = "localDbBtn";
-            localDbBtn.Size = new Size(143, 23);
+            localDbBtn.Size = new Size(120, 60);
             localDbBtn.TabIndex = 25;
-            localDbBtn.Text = "Populate From LocalDB";
-            localDbBtn.UseVisualStyleBackColor = true;
-            localDbBtn.Click += localDbBtn_Click;
+            localDbBtn.Text = "Populate Table From LocalDB";
+            localDbBtn.UseVisualStyleBackColor = false;
+            localDbBtn.Click += LocalDbBtn_Click;
             // 
             // clearDbBtn
             // 
-            clearDbBtn.Location = new Point(3, 131);
+            clearDbBtn.BackColor = Color.SeaGreen;
+            clearDbBtn.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            clearDbBtn.ForeColor = SystemColors.Control;
+            clearDbBtn.Location = new Point(325, 325);
             clearDbBtn.Name = "clearDbBtn";
-            clearDbBtn.Size = new Size(119, 23);
+            clearDbBtn.Size = new Size(120, 60);
             clearDbBtn.TabIndex = 26;
             clearDbBtn.Text = "Clear local Table";
-            clearDbBtn.UseVisualStyleBackColor = true;
+            clearDbBtn.UseVisualStyleBackColor = false;
             clearDbBtn.Click += clearDbBtn_Click;
+            // 
+            // pageIndexlabel
+            // 
+            pageIndexlabel.AutoSize = true;
+            pageIndexlabel.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            pageIndexlabel.Location = new Point(142, 681);
+            pageIndexlabel.Name = "pageIndexlabel";
+            pageIndexlabel.Size = new Size(13, 17);
+            pageIndexlabel.TabIndex = 27;
+            pageIndexlabel.Text = "1";
             // 
             // UserCommentsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(589, 488);
+            BackColor = Color.Lavender;
+            ClientSize = new Size(589, 715);
+            Controls.Add(pageIndexlabel);
             Controls.Add(clearDbBtn);
             Controls.Add(localDbBtn);
             Controls.Add(updateDatabaseBtn);
             Controls.Add(clrBtn);
             Controls.Add(fetchBtn);
             Controls.Add(postBtn);
-            Controls.Add(commentLabel);
-            Controls.Add(dateLabel);
-            Controls.Add(nameLabel);
-            Controls.Add(idLabel);
             Controls.Add(commentTextBox);
             Controls.Add(dateTextBox);
             Controls.Add(nameTextBox);
             Controls.Add(idTextBox);
             Controls.Add(searchBtn);
             Controls.Add(searchTextBox);
-            Controls.Add(searchLabel);
             Controls.Add(prevLinkLabel);
             Controls.Add(nextLabelLink);
-            Controls.Add(pageSizeCombox);
-            Controls.Add(pageCounterTextBox);
-            Controls.Add(dataGridView1);
+            Controls.Add(pageSizeComboBox);
+            Controls.Add(commentsDataGridView);
             MinimumSize = new Size(600, 520);
             Name = "UserCommentsForm";
             Text = "Names";
             Load += MainForm_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)commentsDataGridView).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private DataGridView dataGridView1;
-        private TextBox pageCounterTextBox;
-        private ComboBox pageSizeCombox;
+        private DataGridView commentsDataGridView;
+        private ComboBox pageSizeComboBox;
         private LinkLabel nextLabelLink;
         private LinkLabel prevLinkLabel;
-        private Label searchLabel;
         private TextBox searchTextBox;
         private Button searchBtn;
         private TextBox idTextBox;
         private TextBox nameTextBox;
         private TextBox dateTextBox;
         private TextBox commentTextBox;
-        private Label idLabel;
-        private Label nameLabel;
-        private Label dateLabel;
-        private Label commentLabel;
         private Button postBtn;
         private Button fetchBtn;
         private Button clrBtn;
         private Button updateDatabaseBtn;
         private Button localDbBtn;
         private Button clearDbBtn;
+        private Label pageIndexlabel;
     }
 }
+

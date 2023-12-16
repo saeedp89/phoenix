@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34310.174
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phoenix.UI", "Phoenix.UI\Phoenix.UI.csproj", "{1D5D4E92-8F1B-41B1-AE2F-F25B3610C313}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phoenix.Infrastructure", "Phoenix.Infrastructure\Phoenix.Infrastructure.csproj", "{E8E26CE8-B780-46A7-BA24-0B24CD3CF01C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{1D5D4E92-8F1B-41B1-AE2F-F25B3610C313}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D5D4E92-8F1B-41B1-AE2F-F25B3610C313}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D5D4E92-8F1B-41B1-AE2F-F25B3610C313}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8E26CE8-B780-46A7-BA24-0B24CD3CF01C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8E26CE8-B780-46A7-BA24-0B24CD3CF01C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8E26CE8-B780-46A7-BA24-0B24CD3CF01C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8E26CE8-B780-46A7-BA24-0B24CD3CF01C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
