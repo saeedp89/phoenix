@@ -4,10 +4,10 @@ namespace Phoenix.Infrastructure.Abstractions;
 
 public interface IUserCommentService
 {
-    IEnumerable<CommentDto> GetCommentsFromApi(string url);
-    IEnumerable<CommentDto> GetCommentsFromDb(int pageSize = 5, int pageIndex = 1, string searchTerm = "");
+    Task<IEnumerable<CommentDto>> GetCommentsFromApiAsync(string url);
+    Task<IEnumerable<CommentDto>> GetCommentsFromDbAsync(int pageSize = 5, int pageIndex = 1, string searchTerm = "");
    
-    string PostData(CommentDto commentDto);
-    void ClearLocalTable();
-    void SynchronizeDatabaseWithServer();
+    Task<string> PostDataAsync(CommentDto commentDto);
+    Task ClearLocalTableAsync();
+    Task SynchronizeDatabaseWithServerAsync();
 }

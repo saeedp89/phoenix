@@ -45,30 +45,31 @@ namespace Phoenix.UI.Forms
             clrBtn = new Button();
             updateDatabaseBtn = new Button();
             localDbBtn = new Button();
-            clearDbBtn = new Button();
+            clearTableBtn = new Button();
             pageIndexlabel = new Label();
-            // ((System.ComponentModel.ISupportInitialize)commentsDataGridView).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)commentsDataGridView).BeginInit();
             SuspendLayout();
             // 
-            // dataGridView1
+            // commentsDataGridView
             // 
+            commentsDataGridView.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             commentsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             commentsDataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             commentsDataGridView.BackgroundColor = Color.LavenderBlush;
             commentsDataGridView.GridColor = SystemColors.ActiveCaption;
-            commentsDataGridView.Location = new Point(12, 402);
+            commentsDataGridView.Location = new Point(12, 398);
             commentsDataGridView.Name = "commentsDataGridView";
             commentsDataGridView.Size = new Size(565, 253);
             commentsDataGridView.TabIndex = 0;
             commentsDataGridView.CellClick += CommentsDataGridViewCellClick;
             // 
-            // pageSizeCombox
+            // pageSizeComboBox
             // 
             pageSizeComboBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             pageSizeComboBox.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             pageSizeComboBox.FormattingEnabled = true;
             pageSizeComboBox.Items.AddRange(new object[] { "5", "10", "20", "50" });
-            pageSizeComboBox.Location = new Point(456, 681);
+            pageSizeComboBox.Location = new Point(456, 677);
             pageSizeComboBox.Name = "pageSizeComboBox";
             pageSizeComboBox.Size = new Size(121, 25);
             pageSizeComboBox.TabIndex = 3;
@@ -79,7 +80,7 @@ namespace Phoenix.UI.Forms
             nextLabelLink.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             nextLabelLink.AutoSize = true;
             nextLabelLink.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            nextLabelLink.Location = new Point(185, 684);
+            nextLabelLink.Location = new Point(173, 677);
             nextLabelLink.Name = "nextLabelLink";
             nextLabelLink.Size = new Size(37, 17);
             nextLabelLink.TabIndex = 6;
@@ -92,7 +93,7 @@ namespace Phoenix.UI.Forms
             prevLinkLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             prevLinkLabel.AutoSize = true;
             prevLinkLabel.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            prevLinkLabel.Location = new Point(70, 681);
+            prevLinkLabel.Location = new Point(78, 677);
             prevLinkLabel.Name = "prevLinkLabel";
             prevLinkLabel.Size = new Size(54, 17);
             prevLinkLabel.TabIndex = 7;
@@ -118,7 +119,7 @@ namespace Phoenix.UI.Forms
             searchBtn.Name = "searchBtn";
             searchBtn.Size = new Size(60, 30);
             searchBtn.TabIndex = 10;
-            searchBtn.Text = "Search";
+            searchBtn.Text = "SearchAsync";
             searchBtn.UseVisualStyleBackColor = false;
             searchBtn.Click += searchBtn_Click;
             // 
@@ -224,24 +225,25 @@ namespace Phoenix.UI.Forms
             localDbBtn.UseVisualStyleBackColor = false;
             localDbBtn.Click += LocalDbBtn_Click;
             // 
-            // clearDbBtn
+            // clearTableBtn
             // 
-            clearDbBtn.BackColor = Color.SeaGreen;
-            clearDbBtn.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            clearDbBtn.ForeColor = SystemColors.Control;
-            clearDbBtn.Location = new Point(325, 325);
-            clearDbBtn.Name = "clearDbBtn";
-            clearDbBtn.Size = new Size(120, 60);
-            clearDbBtn.TabIndex = 26;
-            clearDbBtn.Text = "Clear local Table";
-            clearDbBtn.UseVisualStyleBackColor = false;
-            clearDbBtn.Click += clearDbBtn_Click;
+            clearTableBtn.BackColor = Color.SeaGreen;
+            clearTableBtn.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            clearTableBtn.ForeColor = SystemColors.Control;
+            clearTableBtn.Location = new Point(325, 325);
+            clearTableBtn.Name = "clearTableBtn";
+            clearTableBtn.Size = new Size(120, 60);
+            clearTableBtn.TabIndex = 26;
+            clearTableBtn.Text = "Clear local Table";
+            clearTableBtn.UseVisualStyleBackColor = false;
+            clearTableBtn.Click += ClearTableBtn_Click;
             // 
             // pageIndexlabel
             // 
+            pageIndexlabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             pageIndexlabel.AutoSize = true;
             pageIndexlabel.Font = new Font("Comic Sans MS", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            pageIndexlabel.Location = new Point(142, 681);
+            pageIndexlabel.Location = new Point(142, 677);
             pageIndexlabel.Name = "pageIndexlabel";
             pageIndexlabel.Size = new Size(13, 17);
             pageIndexlabel.TabIndex = 27;
@@ -252,9 +254,9 @@ namespace Phoenix.UI.Forms
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Lavender;
-            ClientSize = new Size(589, 715);
+            ClientSize = new Size(589, 711);
             Controls.Add(pageIndexlabel);
-            Controls.Add(clearDbBtn);
+            Controls.Add(clearTableBtn);
             Controls.Add(localDbBtn);
             Controls.Add(updateDatabaseBtn);
             Controls.Add(clrBtn);
@@ -270,7 +272,7 @@ namespace Phoenix.UI.Forms
             Controls.Add(nextLabelLink);
             Controls.Add(pageSizeComboBox);
             Controls.Add(commentsDataGridView);
-            MinimumSize = new Size(600, 520);
+            MinimumSize = new Size(605, 750);
             Name = "UserCommentsForm";
             Text = "Names";
             Load += MainForm_Load;
@@ -296,7 +298,7 @@ namespace Phoenix.UI.Forms
         private Button clrBtn;
         private Button updateDatabaseBtn;
         private Button localDbBtn;
-        private Button clearDbBtn;
+        private Button clearTableBtn;
         private Label pageIndexlabel;
     }
 }

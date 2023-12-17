@@ -18,21 +18,23 @@ public class UserCommentService : IUserCommentService
     }
 
 
-    public IEnumerable<CommentDto> GetCommentsFromApi(string url)
+    public async Task<IEnumerable<CommentDto>> GetCommentsFromApiAsync(string url)
     {
-        var items = new HttpClient().GetFromJsonAsync<IEnumerable<CommentDto>>("http://tasks.cloudsite.ir/api").Result;
+        var items = await new HttpClient().GetFromJsonAsync<IEnumerable<CommentDto>>("http://tasks.cloudsite.ir/api");
         return items;
     }
 
 
-    public IEnumerable<CommentDto> GetCommentsFromDb(int pageSize = 5, int pageIndex = 1, string searchTerm = "")
+    public async Task<IEnumerable<CommentDto>> GetCommentsFromDbAsync(int pageSize = 5, int pageIndex = 1,
+        string searchTerm = "")
     {
-        var cms=_repository.Search(pageSize, pageSize * (pageIndex - 1), searchTerm: searchTerm).ToCommentDto();
+        var cms = (await _repository.SearchAsync(pageSize, pageSize * (pageIndex - 1), searchTerm: searchTerm))
+            .ToCommentDto();
         return cms;
     }
 
 
-    public string PostData(CommentDto commentDto)
+    public async Task<string> PostDataAsync(CommentDto commentDto)
     {
         using var req = new HttpRequestMessage(new HttpMethod("POST"), "http://tasks.cloudsite.ir/api/");
         var multipartFormDataContent = new MultipartFormDataContent();
@@ -40,25 +42,20 @@ public class UserCommentService : IUserCommentService
         multipartFormDataContent.Add(new StringContent(commentDto.Date), "date");
         multipartFormDataContent.Add(new StringContent(commentDto.Comment), "comment");
         req.Content = multipartFormDataContent;
-        HttpResponseMessage httpResponse = new HttpClient().SendAsync(req).Result;
-        if (httpResponse.IsSuccessStatusCode)
-            return "Success";
-        else
-        {
-            return "Failed";
-        }
+        HttpResponseMessage httpResponse = await new HttpClient().SendAsync(req);
+        return httpResponse.IsSuccessStatusCode ? "Success" : "Failed";
     }
 
-    public void ClearLocalTable()
+    public async Task ClearLocalTableAsync()
     {
-        _repository.ClearTable();
+        await _repository.TruncateAsync();
     }
 
-    public void SynchronizeDatabaseWithServer()
+    public async Task SynchronizeDatabaseWithServerAsync()
     {
-        _repository.ClearTable();
-        var data = GetCommentsFromApi("/api");
-        _repository.AddRange(data.ToUserComment());
+        await _repository.TruncateAsync();
+        var data = await GetCommentsFromApiAsync("/api");
+        await _repository.AddRangeAsync(data.ToUserComment());
     }
 
 

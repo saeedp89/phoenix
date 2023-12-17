@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Phoenix.Infrastructure.Abstractions;
 using Phoenix.Infrastructure.Models.Entities;
 
@@ -15,40 +16,40 @@ public class UserCommentRepository : IUserCommentRepository
     }
 
 
-    public void ClearTable()
+    public async Task TruncateAsync()
     {
         using var scope = _provider.CreateScope();
         var context=scope.ServiceProvider.GetRequiredService<PhoenixDbContext>();
         
         context.Comments.RemoveRange(context.Comments.ToList());
-        context.SaveChanges();
+        await context.SaveChangesAsync();
     }
 
 
-    public IEnumerable<UserComment> Search(int count = 5, int skip = 0, string searchTerm = "")
+    public async Task<IEnumerable<UserComment>> SearchAsync(int count = 5, int skip = 0, string searchTerm = "")
     {
         using var serviceScope = _provider.CreateScope();
         var context = serviceScope.ServiceProvider.GetRequiredService<PhoenixDbContext>();
         var query = context.Comments.AsQueryable();
         if (!string.IsNullOrWhiteSpace(searchTerm))
             query = query.Where(x => x.Name.Contains(searchTerm) || x.Comment.Contains(searchTerm));
-        return query.Skip(skip).Take(count).ToList();
+        return await query.Skip(skip).Take(count).ToListAsync();
     }
 
-    public int Count()
+    public async Task<int> CountAsync()
     {
         using var serviceScope = _provider.CreateScope();
          var context = serviceScope.ServiceProvider.GetRequiredService<PhoenixDbContext>();
-         return context.Comments.Count();
+         return await context.Comments.CountAsync();
     }
 
 
-    public void AddRange(IEnumerable<UserComment> comments)
+    public async Task AddRangeAsync(IEnumerable<UserComment> comments)
     {
         using var serviceScope = _provider.CreateScope();
         var context = serviceScope.ServiceProvider.GetRequiredService<PhoenixDbContext>();
-        context.Comments.AddRange(comments);
+        await context.Comments.AddRangeAsync(comments);
 
-        context.SaveChanges();
+        await context.SaveChangesAsync();
     }
 }

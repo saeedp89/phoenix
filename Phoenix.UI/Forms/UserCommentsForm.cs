@@ -1,3 +1,5 @@
+using System.Resources;
+using Microsoft.Extensions.Localization;
 using Phoenix.Infrastructure.Abstractions;
 using Phoenix.Infrastructure.Models;
 using Phoenix.Infrastructure.Models.DataTransferObjects;
@@ -17,46 +19,44 @@ namespace Phoenix.UI.Forms
         }
 
 
-        private void BindData(IEnumerable<CommentDto> data)
+        private async void MainForm_Load(object sender, EventArgs e)
         {
-            commentsDataGridView.DataSource = data;
-        }
+            this.pageSizeComboBox.SelectedIndex = 0;
+            commentsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-             this.pageSizeComboBox.SelectedIndex = 0;
-             commentsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
-             _pageSize = int.Parse(this.pageSizeComboBox.Items[0].ToString());
-             BindData(_userCommentService.GetCommentsFromDb().ToList());
-             this.commentsDataGridView.Refresh();
-        }
-
-
-        private void pageSizeComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ClearTextBoxes();
-            _pageSize = int.Parse(this.pageSizeComboBox.SelectedItem.ToString());
-            BindData(_userCommentService.GetCommentsFromDb(_pageSize, _pageIndex, searchTextBox.Text).ToList());
+            _pageSize = int.Parse(this.pageSizeComboBox.Items[0].ToString());
+            commentsDataGridView.DataSource = await _userCommentService.GetCommentsFromDbAsync();
             this.commentsDataGridView.Refresh();
         }
 
-        private void nextLabelLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+
+        private async void pageSizeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ClearTextBoxes();
+            _pageSize = int.Parse(this.pageSizeComboBox.SelectedItem.ToString());
+            commentsDataGridView.DataSource =
+                await _userCommentService.GetCommentsFromDbAsync(_pageSize, _pageIndex, searchTextBox.Text);
+            this.commentsDataGridView.Refresh();
+        }
+
+        private async void nextLabelLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             ClearTextBoxes();
             _pageIndex++;
-            BindData(_userCommentService.GetCommentsFromDb(_pageSize, _pageIndex, searchTextBox.Text).ToList());
+            commentsDataGridView.DataSource =
+                await _userCommentService.GetCommentsFromDbAsync(_pageSize, _pageIndex, searchTextBox.Text);
             this.pageIndexlabel.Text = _pageIndex.ToString();
             this.commentsDataGridView.Refresh();
         }
 
-        private void prevLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private async void prevLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (_pageIndex > 1)
             {
                 ClearTextBoxes();
                 _pageIndex--;
-                BindData(_userCommentService.GetCommentsFromDb(_pageSize, _pageIndex, searchTextBox.Text).ToList());
+                commentsDataGridView.DataSource =
+                    await _userCommentService.GetCommentsFromDbAsync(_pageSize, _pageIndex, searchTextBox.Text);
 
                 this.pageIndexlabel.Text = _pageIndex.ToString();
                 this.commentsDataGridView.Refresh();
@@ -67,10 +67,10 @@ namespace Phoenix.UI.Forms
             }
         }
 
-        private void searchBtn_Click(object sender, EventArgs e)
+        private async void searchBtn_Click(object sender, EventArgs e)
         {
-            var data = _userCommentService.GetCommentsFromDb(_pageSize, _pageIndex, searchTextBox.Text);
-            BindData(data.ToList());
+            var data = await _userCommentService.GetCommentsFromDbAsync(_pageSize, _pageIndex, searchTextBox.Text);
+            commentsDataGridView.DataSource = data;
             commentsDataGridView.Refresh();
         }
 
@@ -103,16 +103,16 @@ namespace Phoenix.UI.Forms
         }
 
 
-        private void fetchBtn_Click(object sender, EventArgs e)
+        private async void fetchBtn_Click(object sender, EventArgs e)
         {
-            var data = _userCommentService.GetCommentsFromApi("api");
-            BindData(data);
+            var data = await _userCommentService.GetCommentsFromApiAsync("api");
+            commentsDataGridView.DataSource = data;
             commentsDataGridView.Refresh();
         }
 
-        private void postBtn_Click(object sender, EventArgs e)
+        private async void postBtn_Click(object sender, EventArgs e)
         {
-            var result = _userCommentService.PostData(new CommentDto()
+            var result = await _userCommentService.PostDataAsync(new CommentDto()
             {
                 Date = dateTextBox.Text,
                 Comment = commentTextBox.Text,
@@ -127,30 +127,36 @@ namespace Phoenix.UI.Forms
             ClearTextBoxes();
         }
 
-        private void LocalDbBtn_Click(object sender, EventArgs e)
+        private async void LocalDbBtn_Click(object sender, EventArgs e)
         {
             this.pageSizeComboBox.SelectedIndex = 0;
             commentsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             _pageSize = int.Parse(this.pageSizeComboBox.Items[0].ToString());
-            BindData(_userCommentService.GetCommentsFromDb().ToList());
+            commentsDataGridView.DataSource = await _userCommentService.GetCommentsFromDbAsync();
+            commentsDataGridView.Refresh();
             MessageBox.Show("Data fetched from Local db");
         }
 
-        private void updateDatabaseBtn_Click(object sender, EventArgs e)
+        private async void updateDatabaseBtn_Click(object sender, EventArgs e)
         {
-            _userCommentService.SynchronizeDatabaseWithServer();
+            await _userCommentService.SynchronizeDatabaseWithServerAsync();
             MessageBox.Show("Synchronized Database with Server");
         }
 
-        private void clearDbBtn_Click(object sender, EventArgs e)
+        private async void clearDbBtn_Click(object sender, EventArgs e)
         {
-            _userCommentService.ClearLocalTable();
-            // var data = await Task.Run(() => _userCommentService.GetCommentsFromApi("/api"))
+            await _userCommentService.ClearLocalTableAsync();
+            // var data = await Task.Run(() => _userCommentService.GetCommentsFromApiAsync("/api"))
             // .ConfigureAwait(false);
             commentsDataGridView.DataSource = Array.Empty<CommentDto>();
             commentsDataGridView.Refresh();
             MessageBox.Show("DONE!");
+        }
+
+        private async void ClearTableBtn_Click(object sender, EventArgs e)
+        {
+           await _userCommentService.ClearLocalTableAsync();
         }
     }
 }
