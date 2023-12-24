@@ -25,7 +25,8 @@ namespace Phoenix.UI.Forms
             commentsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             _pageSize = int.Parse(this.pageSizeComboBox.Items[0].ToString());
-            commentsDataGridView.DataSource = await _userCommentService.GetCommentsFromDbAsync();
+            var data= await _userCommentService.GetCommentsFromDbAsync();
+            commentsDataGridView.DataSource = data.ToList();
             this.commentsDataGridView.Refresh();
         }
 
@@ -34,8 +35,9 @@ namespace Phoenix.UI.Forms
         {
             ClearTextBoxes();
             _pageSize = int.Parse(this.pageSizeComboBox.SelectedItem.ToString());
-            commentsDataGridView.DataSource =
+            var data=
                 await _userCommentService.GetCommentsFromDbAsync(_pageSize, _pageIndex, searchTextBox.Text);
+            commentsDataGridView.DataSource = data.ToList();
             this.commentsDataGridView.Refresh();
         }
 
@@ -43,8 +45,9 @@ namespace Phoenix.UI.Forms
         {
             ClearTextBoxes();
             _pageIndex++;
-            commentsDataGridView.DataSource =
-                await _userCommentService.GetCommentsFromDbAsync(_pageSize, _pageIndex, searchTextBox.Text);
+            var data = await _userCommentService.GetCommentsFromDbAsync(_pageSize, _pageIndex, searchTextBox.Text);
+            commentsDataGridView.DataSource = data.ToList();
+               
             this.pageIndexlabel.Text = _pageIndex.ToString();
             this.commentsDataGridView.Refresh();
         }
@@ -55,8 +58,9 @@ namespace Phoenix.UI.Forms
             {
                 ClearTextBoxes();
                 _pageIndex--;
-                commentsDataGridView.DataSource =
-                    await _userCommentService.GetCommentsFromDbAsync(_pageSize, _pageIndex, searchTextBox.Text);
+                var data = await _userCommentService.GetCommentsFromDbAsync(_pageSize, _pageIndex, searchTextBox.Text); ;
+                commentsDataGridView.DataSource = data.ToList();
+                   
 
                 this.pageIndexlabel.Text = _pageIndex.ToString();
                 this.commentsDataGridView.Refresh();
@@ -70,7 +74,7 @@ namespace Phoenix.UI.Forms
         private async void searchBtn_Click(object sender, EventArgs e)
         {
             var data = await _userCommentService.GetCommentsFromDbAsync(_pageSize, _pageIndex, searchTextBox.Text);
-            commentsDataGridView.DataSource = data;
+            commentsDataGridView.DataSource = data.ToList();
             commentsDataGridView.Refresh();
         }
 
@@ -106,7 +110,7 @@ namespace Phoenix.UI.Forms
         private async void fetchBtn_Click(object sender, EventArgs e)
         {
             var data = await _userCommentService.GetCommentsFromApiAsync("api");
-            commentsDataGridView.DataSource = data;
+            commentsDataGridView.DataSource = data.ToList();
             commentsDataGridView.Refresh();
         }
 
@@ -133,7 +137,8 @@ namespace Phoenix.UI.Forms
             commentsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             _pageSize = int.Parse(this.pageSizeComboBox.Items[0].ToString());
-            commentsDataGridView.DataSource = await _userCommentService.GetCommentsFromDbAsync();
+            var data = await _userCommentService.GetCommentsFromDbAsync();
+            commentsDataGridView.DataSource = data.ToList();
             commentsDataGridView.Refresh();
             MessageBox.Show("Data fetched from Local db");
         }
@@ -141,6 +146,7 @@ namespace Phoenix.UI.Forms
         private async void updateDatabaseBtn_Click(object sender, EventArgs e)
         {
             await _userCommentService.SynchronizeDatabaseWithServerAsync();
+
             MessageBox.Show("Synchronized Database with Server");
         }
 
@@ -157,6 +163,9 @@ namespace Phoenix.UI.Forms
         private async void ClearTableBtn_Click(object sender, EventArgs e)
         {
            await _userCommentService.ClearLocalTableAsync();
+            commentsDataGridView.DataSource=Array.Empty<CommentDto>();
+            commentsDataGridView.Refresh();
+            MessageBox.Show("Local Database truncated");
         }
     }
 }

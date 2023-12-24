@@ -30,7 +30,7 @@ public class UserCommentRepository : IUserCommentRepository
     {
         using var serviceScope = _provider.CreateScope();
         var context = serviceScope.ServiceProvider.GetRequiredService<PhoenixDbContext>();
-        var query = context.Comments.AsQueryable();
+        var query = context.Comments.OrderByDescending(x=>x.Id).AsQueryable();
         if (!string.IsNullOrWhiteSpace(searchTerm))
             query = query.Where(x => x.Name.Contains(searchTerm) || x.Comment.Contains(searchTerm));
         return await query.Skip(skip).Take(count).ToListAsync();

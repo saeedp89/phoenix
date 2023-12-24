@@ -19,11 +19,19 @@ namespace Phoenix.UI
         {
             var startup = new Startup();
             var services = startup.ConfigureServices();
+            ManageDataMigration(services);
             var userCommentService = services.GetRequiredService<IUserCommentService>();
             
             ApplicationConfiguration.Initialize();
             
             Application.Run(new UserCommentsForm(userCommentService));
+        }
+
+        private static void ManageDataMigration(IServiceProvider services)
+        {
+            var context = services.GetRequiredService<PhoenixDbContext>();
+            context.Database.EnsureCreated();
+            context.Database.Migrate();
         }
     }
 }

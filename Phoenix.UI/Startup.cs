@@ -12,8 +12,10 @@ public class Startup
     public IServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection();
+        
         services.AddRepositories();
         services.AddServices();
+        services.AddSingleton(Configuration);
         services.AddHttpClients(Configuration);
         return services.BuildServiceProvider();
     }
